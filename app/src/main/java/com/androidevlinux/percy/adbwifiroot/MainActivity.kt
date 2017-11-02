@@ -76,19 +76,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    fun changeState() {
+    private fun changeState() {
         //val enabled = checkAdb()
         if (turn_on_adb_wifi.isChecked) {
             txt_ip.text =  resources.getText(R.string.adb_connect).toString().plus(" " + getIP())
         } else {
             txt_ip.text = resources.getText(R.string.adb_connect_0)
         }
-        Notify(txt_ip.text.toString())
+        notify(txt_ip.text.toString())
     }
 
-    private fun Notify(toString: String) {
-
-
+    private fun notify(toString: String) {
         val builder = Notification.Builder(this@MainActivity)
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
@@ -96,11 +94,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .setContentTitle(toString)
                 .setContentIntent(pendingIntent)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        @Suppress("DEPRECATION")
         val notification = builder.notification
         notificationManager.notify(R.drawable.ic_stat_adb, notification)
     }
 
-    fun enableWifiAdb(enable: Boolean): Boolean {
+    private fun enableWifiAdb(enable: Boolean): Boolean {
         var process: Process? = null
         var os: OutputStreamWriter? = null
 
@@ -133,7 +132,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    fun checkAdb(): Boolean {
+    private fun checkAdb(): Boolean {
         var process: Process? = null
         var `in`: InputStreamReader? = null
         try {
@@ -168,9 +167,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     @SuppressLint("WifiManagerLeak", "MissingPermission")
-    fun getIP(): String {
+    private fun getIP(): String {
         val wm = this.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val ip = Formatter.formatIpAddress(wm.connectionInfo.ipAddress)
-        return ip
+        return Formatter.formatIpAddress(wm.connectionInfo.ipAddress)
     }
 }
