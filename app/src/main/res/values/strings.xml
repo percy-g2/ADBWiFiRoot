@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ADB WiFi (Root)</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="about">About</string>
+    <string name="adb_connect">adb connect</string>
+    <string name="adb_connect_0">adb connect 0.0.0.0:5555</string>
+</resources>
