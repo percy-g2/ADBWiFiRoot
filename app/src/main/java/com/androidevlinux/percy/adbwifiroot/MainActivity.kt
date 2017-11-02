@@ -1,7 +1,11 @@
 package com.androidevlinux.percy.adbwifiroot
 
 import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -18,6 +22,8 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.io.LineNumberReader
 import java.io.OutputStreamWriter
+
+
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -77,6 +83,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             txt_ip.text = resources.getText(R.string.adb_connect_0)
         }
+        Notify(txt_ip.text.toString())
+    }
+
+    private fun Notify(toString: String) {
+
+
+        val builder = Notification.Builder(this@MainActivity)
+        val notificationIntent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+        builder.setSmallIcon(R.drawable.ic_stat_adb)
+                .setContentTitle(toString)
+                .setContentIntent(pendingIntent)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notification = builder.notification
+        notificationManager.notify(R.drawable.ic_stat_adb, notification)
     }
 
     fun enableWifiAdb(enable: Boolean): Boolean {
