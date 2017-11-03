@@ -1,6 +1,5 @@
-package com.androidevlinux.percy.adbwifiroot
+package com.androidevlinux.percy.adbwifiroot.Activity
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -13,14 +12,12 @@ import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.text.format.Formatter
 import android.view.MenuItem
+import com.androidevlinux.percy.adbwifiroot.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.io.IOException
-import java.io.InputStreamReader
-import java.io.LineNumberReader
 import java.io.OutputStreamWriter
 
 
@@ -42,11 +39,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         turn_on_adb_wifi.setOnCheckedChangeListener{ _, isChecked ->
             if (isChecked) {
-                enableWifiAdb(!checkAdb())
+                enableWifiAdb(isChecked)
                 changeState()
                 Snackbar.make(turn_on_adb_wifi, "ADB WiFi Turned On", Snackbar.LENGTH_SHORT).show()
             } else {
-                enableWifiAdb(!checkAdb())
+                enableWifiAdb(isChecked)
                 changeState()
                 Snackbar.make(turn_on_adb_wifi, "ADB WiFi Turned Off", Snackbar.LENGTH_SHORT).show()
             }
@@ -77,7 +74,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun changeState() {
-        //val enabled = checkAdb()
         if (turn_on_adb_wifi.isChecked) {
             txt_ip.text =  resources.getText(R.string.adb_connect).toString().plus(" " + getIP())
         } else {
@@ -132,43 +128,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    private fun checkAdb(): Boolean {
-        var process: Process? = null
-        var `in`: InputStreamReader? = null
-        try {
-            process = Runtime.getRuntime().exec("getprop service.adb.tcp.port")
-            `in` = InputStreamReader(process!!.inputStream)
-
-            val input = LineNumberReader(`in`)
-
-            process.waitFor()
-
-            val line = input.readLine()
-            if (line != null && line.trim({ it <= ' ' }) != "-1") {
-                return true
-            }
-
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        } finally {
-            if (`in` != null) {
-                try {
-                    `in`.close()
-                    process!!.destroy()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-
-            }
-        }
-        return false
-    }
-
-    @SuppressLint("WifiManagerLeak", "MissingPermission")
     private fun getIP(): String {
-        val wm = this.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        return Formatter.formatIpAddress(wm.connectionInfo.ipAddress)
+        val wifiMgr = this.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifiInfo = wifiMgr.connectionInfo
+        val ip = wifiInfo.ipAddress
+        val strip = String.format("%d.%d.%d.%d", ip and 0xff, ip shr 8 and 0xff, ip shr 16 and 0xff, ip shr 24 and 0xff)
+        return strip
     }
 }
