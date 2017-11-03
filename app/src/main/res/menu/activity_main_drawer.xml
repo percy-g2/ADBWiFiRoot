@@ -5,6 +5,14 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_adb_root"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/adb_root" />
+        <item
+            android:id="@+id/nav_adb_no_root"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/adb_no_root" />
+        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/settings"
             android:title="@string/action_settings" />

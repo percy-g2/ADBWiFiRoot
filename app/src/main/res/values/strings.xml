@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ADB WiFi (Root)</string>
+    <string name="app_name">ADB WiFi</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -8,4 +8,12 @@
     <string name="about">About</string>
     <string name="adb_connect">adb connect</string>
     <string name="adb_connect_0">adb connect 0.0.0.0:5555</string>
+    <string name="adb_root">ADB WiFi (Root)</string>
+    <string name="adb_no_root">ADB WiFi (No Root)</string>
+    <string name="turn_on">Enable ADB Switch</string>
+    <string name="no_wifi_connected">Connect To Wifi Then Try Again</string>
+    <string name="no_root_description">For Devices Without Root Privileges\n
+        1. Connect USB Cable And Enable ADB Connection In Developer Options.\n
+        2. In PC CMD/Terminal Type -> adb tcpip 5555\n
+        3. Then Type -> adb connect </string>
 </resources>
