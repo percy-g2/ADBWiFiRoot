@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.itemIconTintList = null
         displaySelectedScreen(R.id.nav_adb_root)
+        txtTitle.text = this.resources?.getString(R.string.app_name)
     }
 
     override fun onBackPressed() {

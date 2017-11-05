@@ -10,6 +10,7 @@ import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v7.widget.AppCompatTextView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +20,14 @@ import kotlinx.android.synthetic.main.root_adb_fragment.*
 import java.io.IOException
 import java.io.OutputStreamWriter
 
+
+
 /**
  * Created by percy on 04/11/2017.
  */
 
 class RootAdb : Fragment() {
+    private val txtTitle by lazy { activity!!.findViewById<View>(R.id.txtTitle) as AppCompatTextView }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for fragment
@@ -50,6 +54,7 @@ class RootAdb : Fragment() {
             }
         }
         changeState()
+        txtTitle.text = activity?.resources?.getString(R.string.adb_root)
     }
 
     private fun changeState() {
