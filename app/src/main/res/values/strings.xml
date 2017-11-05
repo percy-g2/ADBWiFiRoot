@@ -16,4 +16,6 @@
         1. Connect USB Cable And Enable ADB Connection In Developer Options.\n
         2. In PC CMD/Terminal Type -> adb tcpip 5555\n
         3. Then Type -> adb connect </string>
+    <string name="google_plus_profile_link">https://plus.google.com/u/0/+PercyGahlot</string>
+    <string name="github_profile_link">https://github.com/percy-g2</string>
 </resources>
