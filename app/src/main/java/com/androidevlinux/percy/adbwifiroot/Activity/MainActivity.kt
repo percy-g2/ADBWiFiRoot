@@ -18,6 +18,9 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var fragment: Fragment? = null
+
+    private val ACTION_SETTINGS = "com.androidevlinux.percy.adbwifiroot.Activity.SETTINGS"
+    private val ACTION_ABOUT = "com.androidevlinux.percy.adbwifiroot.Activity.ABOUT"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,7 +32,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.itemIconTintList = null
-        displaySelectedScreen(R.id.nav_adb_root)
+        when {
+            ACTION_SETTINGS == intent.action -> // Invoked via the manifest shortcut.
+                displaySelectedScreen(R.id.nav_settings)
+            ACTION_ABOUT == intent.action -> // Invoked via the manifest shortcut.
+                displaySelectedScreen(R.id.nav_about)
+            else -> displaySelectedScreen(R.id.nav_adb_root)
+        }
         txtTitle.text = this.resources?.getString(R.string.app_name)
     }
 
