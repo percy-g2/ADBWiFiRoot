@@ -18,4 +18,7 @@
         3. Then Type -> adb connect </string>
     <string name="google_plus_profile_link">https://plus.google.com/u/0/+PercyGahlot</string>
     <string name="github_profile_link">https://github.com/percy-g2</string>
+    <string name="reboot_alert">Do you want to reboot the device ?</string>
+    <string name="power_off_alert">Do you want to turn off the device ?</string>
+    <string name="soft_reboot_alert">Do you want to soft reboot the device ?</string>
 </resources>

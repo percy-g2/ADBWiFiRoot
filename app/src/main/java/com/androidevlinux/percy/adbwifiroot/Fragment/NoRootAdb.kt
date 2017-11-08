@@ -1,6 +1,5 @@
 package com.androidevlinux.percy.adbwifiroot.Fragment
 
-import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -10,6 +9,7 @@ import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.app.NotificationCompat
 import android.support.v7.widget.AppCompatTextView
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +17,9 @@ import android.view.ViewGroup
 import com.androidevlinux.percy.adbwifiroot.Activity.MainActivity
 import com.androidevlinux.percy.adbwifiroot.R
 import kotlinx.android.synthetic.main.no_root_adb_fragment.*
+
+
+
 
 /**
  * Created by percy on 04/11/2017.
@@ -52,16 +55,14 @@ class NoRootAdb : Fragment() {
     }
 
     private fun notify(toString: String) {
-        val builder = Notification.Builder(activity)
+        val builder = activity?.let { NotificationCompat.Builder(it, "default") }
         val notificationIntent = Intent(activity, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(activity, 0, notificationIntent, 0)
-        builder.setSmallIcon(R.drawable.ic_stat_adb)
-                .setContentTitle(toString)
-                .setContentIntent(pendingIntent)
+        builder?.setSmallIcon(R.drawable.ic_stat_adb)
+                ?.setContentTitle(toString)
+                ?.setContentIntent(pendingIntent)
         val notificationManager = activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        @Suppress("DEPRECATION")
-        val notification = builder.notification
-        notificationManager.notify(R.drawable.ic_stat_adb, notification)
+        notificationManager.notify(R.drawable.ic_stat_adb, builder?.build())
     }
 
     private fun checkWiFi(): Boolean {

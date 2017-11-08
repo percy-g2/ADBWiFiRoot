@@ -1,12 +1,22 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/action_settings">
     <PreferenceCategory
+        android:title="Power Options"
         android:layout="@layout/preference_category">
-        <SwitchPreference
+        <Preference
             android:background="@color/colorAccent"
-            android:defaultValue="false"
-            android:key="enable_dark_theme"
-            android:summary="Enable Dark Theme"
-            android:title="Theme" />
+            android:key="reboot_pref_keys"
+            android:summary="Press To Reboot The Device"
+            android:title="Reboot" />
+        <Preference
+            android:background="@color/colorAccent"
+            android:key="power_off_pref_keys"
+            android:summary="Press To Power Off The Device"
+            android:title="Power Off" />
+        <Preference
+            android:background="@color/colorAccent"
+            android:key="soft_reboot_pref_keys"
+            android:summary="Press To Soft Reboot The Device"
+            android:title="Soft Reboot" />
     </PreferenceCategory>
 </PreferenceScreen>
