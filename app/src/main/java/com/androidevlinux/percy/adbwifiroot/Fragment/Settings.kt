@@ -96,16 +96,20 @@ class Settings : PreferenceFragmentCompat() {
         try {
             process = Runtime.getRuntime().exec("su")
             os = OutputStreamWriter(process!!.outputStream)
-            if (s.equals("soft reboot", true)) {
-                os.write("setprop ctl.restart surfaceflinger\n");
-                os.write("setprop ctl.restart zygote\n");
-                os.write("exit\n");
-            } else if (s.equals("reboot", true)) {
-                os.write("reboot\n")
-                os.write("exit\n");
-            } else if (s.equals("power off", true)) {
-                os.write("reboot -p\n")
-                os.write("exit\n");
+            when {
+                s.equals("soft reboot", true) -> {
+                    os.write("setprop ctl.restart surfaceflinger\n")
+                    os.write("setprop ctl.restart zygote\n")
+                    os.write("exit\n")
+                }
+                s.equals("reboot", true) -> {
+                    os.write("reboot\n")
+                    os.write("exit\n")
+                }
+                s.equals("power off", true) -> {
+                    os.write("reboot -p\n")
+                    os.write("exit\n")
+                }
             }
             os.flush()
             process.waitFor()
