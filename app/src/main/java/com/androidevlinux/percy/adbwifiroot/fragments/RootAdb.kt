@@ -1,4 +1,4 @@
-package com.androidevlinux.percy.adbwifiroot.Fragment
+package com.androidevlinux.percy.adbwifiroot.fragments
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -6,20 +6,21 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
+import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.widget.AppCompatTextView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.androidevlinux.percy.adbwifiroot.Activity.MainActivity
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.fragment.app.Fragment
 import com.androidevlinux.percy.adbwifiroot.R
+import com.androidevlinux.percy.adbwifiroot.activities.MainActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.root_adb_fragment.*
 import java.io.IOException
 import java.io.OutputStreamWriter
-
 
 
 /**
@@ -98,10 +99,8 @@ class RootAdb : Fragment() {
             return false
         } finally {
             try {
-                if (os != null) os.close()
-                if (process != null) {
-                    process.destroy()
-                }
+                os?.close()
+                process?.destroy()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -114,14 +113,26 @@ class RootAdb : Fragment() {
         val cm = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetworkInfo
         if (activeNetwork != null) { // connected to the internet
-            if (activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
-                // connected to wifi
-                //Snackbar.make(turn_on_adb_wifi, activeNetwork.typeName, Snackbar.LENGTH_SHORT).show()
-                return true
-            } else if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE) {
-                // connected to the mobile provider's data plan
-                //Snackbar.make(turn_on_adb_wifi, activeNetwork.typeName, Snackbar.LENGTH_SHORT).show()
-                return false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (cm.getNetworkCapabilities(cm.activeNetwork).hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    // connected to wifi
+                    //Snackbar.make(turn_on_adb_wifi, activeNetwork.typeName, Snackbar.LENGTH_SHORT).show()
+                    return true
+                } else if (cm.getNetworkCapabilities(cm.activeNetwork).hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    // connected to the mobile provider's data plan
+                    //Snackbar.make(turn_on_adb_wifi, activeNetwork.typeName, Snackbar.LENGTH_SHORT).show()
+                    return false
+                }
+            } else {
+                if (activeNetwork.type == ConnectivityManager.TYPE_WIFI) {
+                    // connected to wifi
+                    //Snackbar.make(turn_on_adb_wifi, activeNetwork.typeName, Snackbar.LENGTH_SHORT).show()
+                    return true
+                } else if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE) {
+                    // connected to the mobile provider's data plan
+                    //Snackbar.make(turn_on_adb_wifi, activeNetwork.typeName, Snackbar.LENGTH_SHORT).show()
+                    return false
+                }
             }
         } else {
             // not connected to the internet
@@ -129,6 +140,7 @@ class RootAdb : Fragment() {
         }
         return false
     }
+
     private fun getIP(): String {
         val wifiMgr = activity?.applicationContext?.getSystemService(Context.WIFI_SERVICE) as WifiManager
         val wifiInfo = wifiMgr.connectionInfo

@@ -1,13 +1,13 @@
-package com.androidevlinux.percy.adbwifiroot.Fragment
+package com.androidevlinux.percy.adbwifiroot.fragments
 
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
-import android.support.v7.preference.PreferenceManager
-import android.support.v7.widget.AppCompatTextView
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import com.androidevlinux.percy.adbwifiroot.R
 import java.io.IOException
 import java.io.OutputStreamWriter
@@ -19,35 +19,39 @@ import java.io.OutputStreamWriter
 
 class Settings : PreferenceFragmentCompat() {
     private val txtTitle by lazy { activity!!.findViewById<View>(R.id.txtTitle) as AppCompatTextView }
-    private val reboot_pref by lazy { findPreference(reboot_pref_keys)  }
-    private var reboot_pref_keys = "reboot_pref_keys"
-    private val power_off_pref by lazy { findPreference(power_off_pref_keys)  }
-    private var power_off_pref_keys = "power_off_pref_keys"
-    private val soft_reboot_pref by lazy { findPreference(soft_reboot_pref_keys)  }
-    private var soft_reboot_pref_keys = "soft_reboot_pref_keys"
+    private val rebootPref by lazy { findPreference(rebootPrefKeys) }
+    private var rebootPrefKeys = "reboot_pref_keys"
+    private val powerOffPref by lazy { findPreference(powerOffPrefKeys) }
+    private var powerOffPrefKeys = "power_off_pref_keys"
+    private val softRebootPref by lazy { findPreference(softRebootPrefKeys) }
+    private var softRebootPrefKeys = "soft_reboot_pref_keys"
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
-        txtTitle.text = activity?.resources?.getString(R.string.action_settings)
         try {
             PreferenceManager.getDefaultSharedPreferences(activity)
         } catch (e: Exception) {
             Log.i("test", e.message)
         }
 
-        reboot_pref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+        rebootPref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             rebootDialog()
             true
         }
 
-        soft_reboot_pref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+        softRebootPref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             softRebootDialog()
             true
         }
 
-        power_off_pref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+        powerOffPref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             powerOffDialog()
             true
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        txtTitle.text = activity?.resources?.getString(R.string.action_settings)
     }
 
     private fun rebootDialog() {
@@ -119,10 +123,8 @@ class Settings : PreferenceFragmentCompat() {
             e.printStackTrace()
         } finally {
             try {
-                if (os != null) os.close()
-                if (process != null) {
-                    process.destroy()
-                }
+                os?.close()
+                process?.destroy()
             } catch (e: IOException) {
                 e.printStackTrace()
             }

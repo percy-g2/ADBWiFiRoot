@@ -6,9 +6,9 @@
         android:shortcutLongLabel="@string/action_settings"
         >
         <intent
-            android:action="com.androidevlinux.percy.adbwifiroot.Activity.SETTINGS"
+            android:action="com.androidevlinux.percy.adbwifiroot.activities.SETTINGS"
             android:targetPackage="com.androidevlinux.percy.adbwifiroot"
-            android:targetClass="com.androidevlinux.percy.adbwifiroot.Activity.MainActivity"
+            android:targetClass="com.androidevlinux.percy.adbwifiroot.activities.MainActivity"
             />
     </shortcut>
 
@@ -19,9 +19,9 @@
         android:shortcutLongLabel="@string/about"
         >
         <intent
-            android:action="com.androidevlinux.percy.adbwifiroot.Activity.ABOUT"
+            android:action="com.androidevlinux.percy.adbwifiroot.activities.ABOUT"
             android:targetPackage="com.androidevlinux.percy.adbwifiroot"
-            android:targetClass="com.androidevlinux.percy.adbwifiroot.Activity.MainActivity"
+            android:targetClass="com.androidevlinux.percy.adbwifiroot.activities.MainActivity"
             />
     </shortcut>
 </shortcuts>
